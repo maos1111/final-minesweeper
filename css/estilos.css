@@ -14,6 +14,15 @@
     --celda-revelada: #d5dbdb;
     --celda-oculta: #95a5a6;
 }
+:root[data-tema="oscuro"] {
+    --color-primario: #1a252f;
+    --color-secundario: #2980b9;
+    --fondo-claro: #1e1e1e;
+    --texto-oscuro: #ecf0f1;
+    --color-borde: #34495e;
+    --celda-revelada: #2c3e50;
+    --celda-oculta: #34495e;
+}
 /* ============================================
    ESTILOS BASE
    ============================================ */
@@ -95,6 +104,13 @@ button {
 /* ============================================
    NAVEGACION
    ============================================ */
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
 .menu-navegacion {
     display: flex;
     flex-wrap: wrap;
@@ -116,6 +132,24 @@ button {
 }
 .menu-navegacion a.activo {
     background-color: var(--color-secundario);
+}
+.boton-tema {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    background-color: transparent;
+    color: #ffffff;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+.boton-tema:hover {
+    border-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.1);
+    transform: rotate(180deg);
 }
 /* ============================================
    CONTENEDORES GENERALES
