@@ -3,8 +3,14 @@
 /* ============================================
    CONSTANTES Y CONFIGURACION DEL JUEGO
    ============================================ */
-var TAMANO_TABLERO = 8;
-var TOTAL_MINAS = 10;
+var NIVELES = {
+    facil: { tamano: 8, minas: 10 },
+    medio: { tamano: 12, minas: 25 },
+    dificil: { tamano: 16, minas: 40 }
+};
+var nivelActual = 'facil';
+var TAMANO_TABLERO = NIVELES[nivelActual].tamano;
+var TOTAL_MINAS = NIVELES[nivelActual].minas;
 var TOTAL_CELDAS = TAMANO_TABLERO * TAMANO_TABLERO;
 /* ============================================
    VARIABLES DE ESTADO DEL JUEGO
@@ -36,6 +42,7 @@ var mensajeFin = document.getElementById('mensajeFin');
 var tiempoFinal = document.getElementById('tiempoFinal');
 var minasFinal = document.getElementById('minasFinal');
 var botonJugarDeNuevo = document.getElementById('botonJugarDeNuevo');
+var selectorNivel = document.getElementById('selectorNivel');
 /* ============================================
    FUNCIONES DE VALIDACION
    ============================================ */
@@ -65,6 +72,16 @@ function validarNombreJugador(nombre) {
         return false;
     }
     return true;
+}
+/* ============================================
+   GESTION DE NIVELES DE DIFICULTAD
+   ============================================ */
+function cambiarNivel() {
+    nivelActual = selectorNivel.value;
+    TAMANO_TABLERO = NIVELES[nivelActual].tamano;
+    TOTAL_MINAS = NIVELES[nivelActual].minas;
+    TOTAL_CELDAS = TAMANO_TABLERO * TAMANO_TABLERO;
+    inicializarJuego();
 }
 /* ============================================
    GESTION DE MODALES
@@ -442,6 +459,7 @@ function configurarEventos() {
     botonReiniciar.addEventListener('click', reiniciarJuego);
     botonJugarDeNuevo.addEventListener('click', reiniciarJuego);
     document.addEventListener('keydown', manejarTeclaEspacio);
+    selectorNivel.addEventListener('change', cambiarNivel);
 }
 /* ============================================
    INICIALIZACION DE LA APLICACION
