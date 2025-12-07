@@ -212,11 +212,11 @@ function actualizarContadorTiempo() {
     contadorTiempo.textContent = formateado;
 }
 function actualizarBotonReiniciar(emocion) {
-    var emoticon = ':)';
+    var emoticon = '🙂';
     if (emocion === 'muerto') {
-        emoticon = 'X(';
+        emoticon = '😵';
     } else if (emocion === 'genial') {
-        emoticon = 'B)';
+        emoticon = '😎';
     }
     botonReiniciar.querySelector('.emoticon').textContent = emoticon;
 }
