@@ -796,7 +796,7 @@ button {
 }
 @media (max-width: 768px) {
     :root {
-        --tamano-celda: 35px;
+        --tamano-celda: 28px;
     }
     h1 {
         font-size: 2rem;
@@ -816,7 +816,7 @@ button {
 }
 @media (max-width: 480px) {
     :root {
-        --tamano-celda: 30px;
+        --tamano-celda: 20px;
     }
     h1 {
         font-size: 1.5rem;
@@ -826,5 +826,8 @@ button {
     }
     .contenedor {
         padding: 0 0.5rem;
+    }
+    .celda {
+        font-size: 0.9rem;
     }
 }
