@@ -13,15 +13,21 @@
     --tamano-celda: 40px;
     --celda-revelada: #d5dbdb;
     --celda-oculta: #95a5a6;
+    --fondo-panel: #ffffff;
+    --fondo-input: #ffffff;
+    --texto-etiqueta: #7f8c8d;
 }
 :root[data-tema="oscuro"] {
-    --color-primario: #1a252f;
-    --color-secundario: #2980b9;
-    --fondo-claro: #1e1e1e;
-    --texto-oscuro: #ecf0f1;
-    --color-borde: #34495e;
-    --celda-revelada: #2c3e50;
-    --celda-oculta: #34495e;
+    --color-primario: #34495e;
+    --color-secundario: #3498db;
+    --fondo-claro: #0e0e0e;
+    --texto-oscuro: #e8e8e8;
+    --color-borde: #4a4a4a;
+    --celda-revelada: #2c2c2c;
+    --celda-oculta: #3a3a3a;
+    --fondo-panel: #1A1C1E;
+    --fondo-input: #2c2c2c;
+    --texto-etiqueta: #b0b0b0;
 }
 /* ============================================
    ESTILOS BASE
@@ -39,7 +45,7 @@ body {
    ESTRUCTURA PRINCIPAL
    ============================================ */
 header {
-    padding: 1rem 0;
+    padding: 1rem 2rem;
     background-color: var(--color-primario);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -149,7 +155,6 @@ header nav {
 .boton-tema:hover {
     border-color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
-    transform: rotate(180deg);
 }
 /* ============================================
    CONTENEDORES GENERALES
@@ -172,11 +177,11 @@ header nav {
     margin-bottom: 1rem;
     padding: 1rem;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: var(--fondo-input);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .selector-dificultad label {
-    color: var(--color-primario);
+    color: var(--texto-oscuro);
     font-weight: 600;
     font-size: 1rem;
 }
@@ -184,7 +189,7 @@ header nav {
     padding: 0.5rem 1rem;
     border: 2px solid var(--color-borde);
     border-radius: 4px;
-    background-color: #ffffff;
+    background-color: var(--fondo-input);
     color: var(--texto-oscuro);
     font-family: inherit;
     font-size: 1rem;
@@ -205,7 +210,7 @@ header nav {
     gap: 1rem;
     padding: 1rem;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: var(--fondo-input);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .contador {
@@ -215,7 +220,7 @@ header nav {
     gap: 0.25rem;
 }
 .etiqueta {
-    color: #7f8c8d;
+    color: var(--texto-etiqueta);
     font-size: 0.9rem;
 }
 .valor {
@@ -234,7 +239,8 @@ header nav {
     height: 60px;
     border: 3px solid var(--color-borde);
     border-radius: 8px;
-    background-color: var(--fondo-claro);
+    background-color: var(--fondo-input);
+    color: var(--texto-oscuro);
     font-size: 2rem;
     transition: all 0.2s ease;
 }
@@ -480,7 +486,7 @@ header nav {
 }
 
 header {
-    padding: 1rem 0;
+    padding: 1rem 2rem;
     background-color: var(--color-primario);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
@@ -572,7 +578,7 @@ button {
     gap: 1rem;
     padding: 1rem;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: var(--fondo-input);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 .contador {
@@ -582,7 +588,7 @@ button {
     gap: 0.25rem;
 }
 .etiqueta {
-    color: #7f8c8d;
+    color: var(--texto-etiqueta);
     font-size: 0.9rem;
 }
 .valor {
@@ -601,7 +607,8 @@ button {
     height: 60px;
     border: 3px solid var(--color-borde);
     border-radius: 8px;
-    background-color: var(--fondo-claro);
+    background-color: var(--fondo-input);
+    color: var(--texto-oscuro);
     font-size: 2rem;
     transition: all 0.2s ease;
 }
