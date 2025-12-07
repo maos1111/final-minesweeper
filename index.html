@@ -3,23 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Juego de Buscaminas - Minesweeper">
     <title>Minesweeper - Buscaminas</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <!-- ENCABEZADO Y NAVEGACION -->
     <header>
         <nav>
-            <ul>
-                <li><a href="index.html">Juego</a></li>
+            <ul class="menu-navegacion">
+                <li><a href="index.html" class="activo">Juego</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="https://github.com/naranjax/final-web-1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
         </nav>
     </header>
+    <!-- CONTENIDO PRINCIPAL -->
     <main>
-        <h1>Minesweeper</h1>
-        <div id="tableroJuego"></div>
+        <div class="contenedor">
+            <h1>Minesweeper</h1>
+            <!-- CONTROLES DEL JUEGO -->
+            <div class="controles-juego">
+                <div class="panel-informacion">
+                    <!-- Contador de minas -->
+                    <div class="contador">
+                        <span class="etiqueta">Minas:</span>
+                        <span id="contadorMinas" class="valor">010</span>
+                    </div>
+                    <!-- Boton de reinicio -->
+                    <button id="botonReiniciar" class="boton-reiniciar" title="Nueva partida (Espacio)">
+                        <span class="emoticon">:)</span>
+                    </button>
+                    <!-- Temporizador -->
+                    <div class="contador">
+                        <span class="etiqueta">Tiempo:</span>
+                        <span id="contadorTiempo" class="valor">000</span>
+                    </div>
+                </div>
+            </div>
+            <!-- TABLERO DEL JUEGO -->
+            <div id="tableroJuego" class="tablero-juego"></div>
+            <!-- INFORMACION DEL JUGADOR -->
+            <div class="informacion-jugador">
+                <p>Jugador: <span id="nombreJugador">-</span></p>
+            </div>
+        </div>
     </main>
+    <!-- PIE DE PAGINA -->
     <footer>
-        <p>&copy; 2025 Minesweeper</p>
+        <p>&copy; 2025 Minesweeper - Todos los derechos reservados</p>
     </footer>
+    <!-- MODAL DE INICIO -->
+    <div id="modalInicio" class="modal oculto">
+        <div class="contenido-modal">
+            <h2>¡Bienvenido a Minesweeper!</h2>
+            <p>Ingresa tu nombre para comenzar a jugar</p>
+            <form id="formularioInicio">
+                <input type="text" id="inputNombreJugador" placeholder="Tu nombre (mínimo 3 letras)" maxlength="20" autocomplete="off">
+                <span class="mensaje-error" id="errorNombre"></span>
+                <button type="submit" class="boton-primario">Comenzar Juego</button>
+            </form>
+        </div>
+    </div>
+    <!-- MODAL DE FIN DE JUEGO -->
+    <div id="modalFin" class="modal oculto">
+        <div class="contenido-modal">
+            <h2 id="tituloFin"></h2>
+            <p id="mensajeFin"></p>
+            <div class="estadisticas-modal">
+                <p>Tiempo: <span id="tiempoFinal"></span> segundos</p>
+                <p>Minas: <span id="minasFinal"></span></p>
+            </div>
+            <button id="botonJugarDeNuevo" class="boton-primario">Jugar de Nuevo</button>
+        </div>
+    </div>
+    <script src="js/juego.js"></script>
 </body>
 </html>

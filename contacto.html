@@ -3,28 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacto - Minesweeper">
     <title>Contacto - Minesweeper</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
 <body>
+    <!-- ENCABEZADO Y NAVEGACION -->
     <header>
         <nav>
-            <ul>
+            <ul class="menu-navegacion">
                 <li><a href="index.html">Juego</a></li>
-                <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="contacto.html" class="activo">Contacto</a></li>
+                <li><a href="https://github.com/naranjax/final-web-1" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
         </nav>
     </header>
+    <!-- CONTENIDO PRINCIPAL -->
     <main>
-        <h1>Contacto</h1>
-        <form>
-            <label>Nombre</label>
-            <input type="text">
-            <label>Email</label>
-            <input type="text">
-            <label>Mensaje</label>
-            <textarea></textarea>
-            <button type="submit">Enviar</button>
-        </form>
+        <div class="contenedor">
+            <h1>Contacto</h1>
+            <div class="contenedor-contacto">
+                <!-- Informacion del formulario -->
+                <div class="informacion-contacto">
+                    <h2>¿Tienes alguna pregunta?</h2>
+                    <p>Completa el formulario y nos pondremos en contacto contigo.</p>
+                </div>
+                <!-- Formulario de contacto -->
+                <form id="formularioContacto" class="formulario-contacto">
+                    <!-- Campo nombre -->
+                    <div class="grupo-formulario">
+                        <label for="nombreContacto">Nombre</label>
+                        <input type="text" id="nombreContacto" name="nombre" placeholder="Tu nombre" autocomplete="name">
+                        <span class="mensaje-error" id="errorNombre"></span>
+                    </div>
+                    <!-- Campo email -->
+                    <div class="grupo-formulario">
+                        <label for="emailContacto">Email</label>
+                        <input type="text" id="emailContacto" name="email" placeholder="tu@email.com" autocomplete="email">
+                        <span class="mensaje-error" id="errorEmail"></span>
+                    </div>
+                    <!-- Campo mensaje -->
+                    <div class="grupo-formulario">
+                        <label for="mensajeContacto">Mensaje</label>
+                        <textarea id="mensajeContacto" name="mensaje" rows="6" placeholder="Tu mensaje (mínimo 5 caracteres)"></textarea>
+                        <span class="mensaje-error" id="errorMensaje"></span>
+                    </div>
+                    <!-- Boton de envio -->
+                    <button type="submit" class="boton-primario">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
     </main>
+    <!-- PIE DE PAGINA -->
+    <footer>
+        <p>&copy; 2025 Minesweeper - Todos los derechos reservados</p>
+    </footer>
+    <script src="js/contacto.js"></script>
 </body>
 </html>
