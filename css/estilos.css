@@ -511,15 +511,29 @@ header nav {
     color: var(--texto-etiqueta);
     font-size: 0.85rem;
 }
+.resultado-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.25rem;
+}
+.resultado-puntaje {
+    color: var(--color-advertencia);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
 .resultado-tiempo {
     color: var(--color-secundario);
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: bold;
 }
 .mensaje-vacio {
     padding: 2rem;
     color: var(--texto-etiqueta);
     text-align: center;
+}
+:root[data-tema="oscuro"] .contenido-modal {
+    background-color: #1a1a1a;
 }
 /* ============================================
    PAGINA DE CONTACTO

@@ -50,6 +50,7 @@ var botonLimpiarHistorial = document.getElementById('botonLimpiarHistorial');
 var tablaRanking = document.getElementById('tablaRanking');
 var botonCerrarRanking = document.getElementById('botonCerrarRanking');
 var botonCambiarJugador = document.getElementById('botonCambiarJugador');
+var ordenarPor = document.getElementById('ordenarPor');
 /* ============================================
    FUNCIONES DE VALIDACION
    ============================================ */
@@ -93,6 +94,28 @@ function cambiarNivel() {
 /* ============================================
    GESTION DE RESULTADOS - LOCALSTORAGE
    ============================================ */
+function calcularPuntaje(gano, tiempo, nivel) {
+    var puntosBase;
+    var puntaje;
+    if (!gano) return 0;
+    
+    switch (nivel) {
+        case 'facil':
+            puntosBase = 1000;
+        break;
+        case 'facil':
+            puntosBase = 1000;
+        break;
+        case 'facil':
+            puntosBase = 1000;
+        break;
+    
+        default:
+            break;
+    }
+    puntaje = puntosBase - tiempo;
+    return puntaje > 0 ? puntaje : 1;
+}
 function obtenerResultados() {
     var resultados = localStorage.getItem('resultadosMinesweeper');
     if (resultados) {
@@ -102,12 +125,14 @@ function obtenerResultados() {
 }
 function guardarResultado(gano) {
     var resultados = obtenerResultados();
+    var puntaje = calcularPuntaje(gano, tiempoTranscurrido, nivelActual);
     var nuevoResultado = {
         nombre: nombreJugador,
         nivel: nivelActual,
         tiempo: tiempoTranscurrido,
         minas: TOTAL_MINAS,
         gano: gano,
+        puntaje: puntaje,
         fecha: new Date().toISOString()
     };
     resultados.push(nuevoResultado);
@@ -116,6 +141,7 @@ function guardarResultado(gano) {
 function mostrarModalRanking() {
     var todosResultados = obtenerResultados();
     filtroNivel.value = 'todos';
+    ordenarPor.value = 'puntaje';
     renderizarTablaRanking(todosResultados);
     modalRanking.classList.remove('oculto');
 }
@@ -146,12 +172,24 @@ function renderizarTablaRanking(resultados) {
     var fechaFormateada;
     var claseEstado;
     var estadoTexto;
+    var criterioOrden = ordenarPor.value;
+    var resultadosOrdenados;
     if (resultados.length === 0) {
         tablaRanking.innerHTML = '<p class="mensaje-vacio">No hay resultados guardados</p>';
         return;
     }
-    for (i = resultados.length - 1; i >= 0; i--) {
-        resultado = resultados[i];
+    resultadosOrdenados = resultados.slice();
+    if (criterioOrden === 'puntaje') {
+        resultadosOrdenados.sort(function(a, b) {
+            return (b.puntaje || 0) - (a.puntaje || 0);
+        });
+    } else {
+        resultadosOrdenados.sort(function(a, b) {
+            return new Date(b.fecha) - new Date(a.fecha);
+        });
+    }
+    for (i = 0; i < resultadosOrdenados.length; i++) {
+        resultado = resultadosOrdenados[i];
         fecha = new Date(resultado.fecha);
         fechaFormateada = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
         claseEstado = resultado.gano ? 'victoria' : 'derrota';
@@ -161,7 +199,10 @@ function renderizarTablaRanking(resultados) {
         html += '<span class="resultado-nombre">' + resultado.nombre + '</span>';
         html += '<span class="resultado-detalles">' + estadoTexto + ' - ' + resultado.nivel.charAt(0).toUpperCase() + resultado.nivel.slice(1) + ' (' + resultado.minas + ' minas) - ' + fechaFormateada + '</span>';
         html += '</div>';
+        html += '<div class="resultado-stats">';
+        html += '<span class="resultado-puntaje">' + (resultado.puntaje || 0) + ' pts</span>';
         html += '<span class="resultado-tiempo">' + formatearContador(resultado.tiempo) + '</span>';
+        html += '</div>';
         html += '</div>';
     }
     tablaRanking.innerHTML = html;
@@ -568,6 +609,7 @@ function configurarEventos() {
     });
     botonCerrarRanking.addEventListener('click', ocultarModalRanking);
     filtroNivel.addEventListener('change', filtrarResultados);
+    ordenarPor.addEventListener('change', filtrarResultados);
     botonLimpiarHistorial.addEventListener('click', limpiarHistorial);
     botonCambiarJugador.addEventListener('click', cambiarJugador);
 }
