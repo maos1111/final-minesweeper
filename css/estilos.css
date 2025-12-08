@@ -156,6 +156,30 @@ header nav {
     border-color: #ffffff;
     background-color: rgba(255, 255, 255, 0.1);
 }
+.boton-cambiar-jugador {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    margin-left: 1rem;
+    border: 2px solid var(--color-secundario);
+    border-radius: 4px;
+    background-color: transparent;
+    color: var(--color-secundario);
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.boton-cambiar-jugador:hover {
+    background-color: var(--color-secundario);
+    color: #ffffff;
+    transform: translateY(-2px);
+}
+.boton-cambiar-jugador span {
+    font-size: 1rem;
+}
 /* ============================================
    CONTENEDORES GENERALES
    ============================================ */

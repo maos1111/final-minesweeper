@@ -49,6 +49,7 @@ var filtroNivel = document.getElementById('filtroNivel');
 var botonLimpiarHistorial = document.getElementById('botonLimpiarHistorial');
 var tablaRanking = document.getElementById('tablaRanking');
 var botonCerrarRanking = document.getElementById('botonCerrarRanking');
+var botonCambiarJugador = document.getElementById('botonCambiarJugador');
 /* ============================================
    FUNCIONES DE VALIDACION
    ============================================ */
@@ -160,7 +161,7 @@ function renderizarTablaRanking(resultados) {
         html += '<span class="resultado-nombre">' + resultado.nombre + '</span>';
         html += '<span class="resultado-detalles">' + estadoTexto + ' - ' + resultado.nivel.charAt(0).toUpperCase() + resultado.nivel.slice(1) + ' (' + resultado.minas + ' minas) - ' + fechaFormateada + '</span>';
         html += '</div>';
-        html += '<span class="resultado-tiempo">' + formatearTiempo(resultado.tiempo) + '</span>';
+        html += '<span class="resultado-tiempo">' + formatearContador(resultado.tiempo) + '</span>';
         html += '</div>';
     }
     tablaRanking.innerHTML = html;
@@ -181,6 +182,16 @@ function mostrarModalInicio() {
 }
 function ocultarModalInicio() {
     modalInicio.classList.add('oculto');
+}
+function cambiarJugador() {
+    ocultarModalFin();
+    ocultarModalRanking();
+    detenerTemporizador();
+    juegoTerminado = true;
+    inputNombreJugador.value = '';
+    errorNombre.textContent = '';
+    inputNombreJugador.classList.remove('error');
+    mostrarModalInicio();
 }
 function manejarInicioJuego(evento) {
     var nombre;
@@ -558,6 +569,7 @@ function configurarEventos() {
     botonCerrarRanking.addEventListener('click', ocultarModalRanking);
     filtroNivel.addEventListener('change', filtrarResultados);
     botonLimpiarHistorial.addEventListener('click', limpiarHistorial);
+    botonCambiarJugador.addEventListener('click', cambiarJugador);
 }
 /* ============================================
    INICIALIZACION DE LA APLICACION
