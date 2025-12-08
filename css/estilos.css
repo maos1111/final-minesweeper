@@ -51,7 +51,7 @@ header {
 }
 main {
     flex: 1;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
 }
 footer {
     padding: 1.5rem;
@@ -112,7 +112,7 @@ button {
    ============================================ */
 header nav {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem;
@@ -161,13 +161,16 @@ header nav {
    ============================================ */
 .contenedor {
     max-width: 800px;
+    width: 100%;
+    padding: 0 1rem;
     margin: 0 auto;
 }
 /* ============================================
    CONTROLES DEL JUEGO
    ============================================ */
 .controles-juego {
-    margin-bottom: 2rem;
+    max-width: 100%;
+    margin: 0 auto 2rem;
 }
 .selector-dificultad {
     display: flex;
@@ -492,7 +495,7 @@ header {
 }
 main {
     flex: 1;
-    padding: 2rem 1rem;
+    padding: 2rem 0;
 }
 footer {
     padding: 1.5rem;
@@ -798,14 +801,30 @@ button {
     :root {
         --tamano-celda: 28px;
     }
+    header {
+        padding: 1rem;
+    }
+    header nav {
+        justify-content: center;
+    }
+    .menu-navegacion {
+        width: 100%;
+        justify-content: center;
+    }
+    .boton-tema {
+        width: 35px;
+        height: 35px;
+        font-size: 1.2rem;
+    }
+    .selector-dificultad {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
     h1 {
         font-size: 2rem;
     }
     .panel-informacion {
         flex-direction: column;
-        gap: 1rem;
-    }
-    .menu-navegacion {
         gap: 1rem;
     }
     .boton-reiniciar {
@@ -818,6 +837,31 @@ button {
     :root {
         --tamano-celda: 20px;
     }
+    header {
+        padding: 0.75rem 0.5rem;
+    }
+    .menu-navegacion {
+        gap: 0.5rem;
+        font-size: 0.9rem;
+    }
+    .menu-navegacion a {
+        padding: 0.4rem 0.8rem;
+    }
+    .boton-tema {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+    }
+    .selector-dificultad {
+        padding: 0.75rem;
+    }
+    .selector-dificultad label {
+        font-size: 0.9rem;
+    }
+    .selector-nivel {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
     h1 {
         font-size: 1.5rem;
     }
@@ -829,5 +873,9 @@ button {
     }
     .celda {
         font-size: 0.9rem;
+    }
+    .boton-reiniciar {
+        width: 45px;
+        height: 45px;
     }
 }

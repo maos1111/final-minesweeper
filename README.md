@@ -13,7 +13,7 @@ El jugador debe ingresar su nombre al inicio de la partida. El temporizador comi
 El proyecto está organizado en las siguientes carpetas y archivos:
 
 ```
-final-web-1/
+final-minesweeper/
     index.html
     contacto.html
     css/
