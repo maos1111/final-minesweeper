@@ -208,12 +208,9 @@ function renderizarTablaRanking(resultados) {
     }
     tablaRanking.innerHTML = html;
 }
-function limpiarHistorial() {
-    var confirmacion = confirm('¿Estás seguro de que deseas eliminar todo el historial de partidas?');
-    if (confirmacion) {
-        localStorage.removeItem('resultadosMinesweeper');
-        renderizarTablaRanking([]);
-    }
+function limpiarHistorial() {  
+    localStorage.removeItem('resultadosMinesweeper');
+    renderizarTablaRanking([]);
 }
 /* ============================================
    GESTION DE MODALES
