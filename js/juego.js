@@ -43,6 +43,12 @@ var tiempoFinal = document.getElementById('tiempoFinal');
 var minasFinal = document.getElementById('minasFinal');
 var botonJugarDeNuevo = document.getElementById('botonJugarDeNuevo');
 var selectorNivel = document.getElementById('selectorNivel');
+var modalRanking = document.getElementById('modalRanking');
+var linkRanking = document.getElementById('linkRanking');
+var filtroNivel = document.getElementById('filtroNivel');
+var botonLimpiarHistorial = document.getElementById('botonLimpiarHistorial');
+var tablaRanking = document.getElementById('tablaRanking');
+var botonCerrarRanking = document.getElementById('botonCerrarRanking');
 /* ============================================
    FUNCIONES DE VALIDACION
    ============================================ */
@@ -105,6 +111,66 @@ function guardarResultado(gano) {
     };
     resultados.push(nuevoResultado);
     localStorage.setItem('resultadosMinesweeper', JSON.stringify(resultados));
+}
+function mostrarModalRanking() {
+    var todosResultados = obtenerResultados();
+    filtroNivel.value = 'todos';
+    renderizarTablaRanking(todosResultados);
+    modalRanking.classList.remove('oculto');
+}
+function ocultarModalRanking() {
+    modalRanking.classList.add('oculto');
+}
+function filtrarResultados() {
+    var nivelSeleccionado = filtroNivel.value;
+    var todosResultados = obtenerResultados();
+    var resultadosFiltrados;
+    if (nivelSeleccionado === 'todos') {
+        resultadosFiltrados = todosResultados;
+    } else {
+        resultadosFiltrados = [];
+        for (var i = 0; i < todosResultados.length; i++) {
+            if (todosResultados[i].nivel === nivelSeleccionado) {
+                resultadosFiltrados.push(todosResultados[i]);
+            }
+        }
+    }
+    renderizarTablaRanking(resultadosFiltrados);
+}
+function renderizarTablaRanking(resultados) {
+    var html = '';
+    var i;
+    var resultado;
+    var fecha;
+    var fechaFormateada;
+    var claseEstado;
+    var estadoTexto;
+    if (resultados.length === 0) {
+        tablaRanking.innerHTML = '<p class="mensaje-vacio">No hay resultados guardados</p>';
+        return;
+    }
+    for (i = resultados.length - 1; i >= 0; i--) {
+        resultado = resultados[i];
+        fecha = new Date(resultado.fecha);
+        fechaFormateada = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        claseEstado = resultado.gano ? 'victoria' : 'derrota';
+        estadoTexto = resultado.gano ? '🎉 Victoria' : '💥 Derrota';
+        html += '<div class="resultado-item ' + claseEstado + '">';
+        html += '<div class="resultado-info">';
+        html += '<span class="resultado-nombre">' + resultado.nombre + '</span>';
+        html += '<span class="resultado-detalles">' + estadoTexto + ' - ' + resultado.nivel.charAt(0).toUpperCase() + resultado.nivel.slice(1) + ' (' + resultado.minas + ' minas) - ' + fechaFormateada + '</span>';
+        html += '</div>';
+        html += '<span class="resultado-tiempo">' + formatearTiempo(resultado.tiempo) + '</span>';
+        html += '</div>';
+    }
+    tablaRanking.innerHTML = html;
+}
+function limpiarHistorial() {
+    var confirmacion = confirm('¿Estás seguro de que deseas eliminar todo el historial de partidas?');
+    if (confirmacion) {
+        localStorage.removeItem('resultadosMinesweeper');
+        renderizarTablaRanking([]);
+    }
 }
 /* ============================================
    GESTION DE MODALES
@@ -485,6 +551,13 @@ function configurarEventos() {
     botonJugarDeNuevo.addEventListener('click', reiniciarJuego);
     document.addEventListener('keydown', manejarTeclaEspacio);
     selectorNivel.addEventListener('change', cambiarNivel);
+    linkRanking.addEventListener('click', function(evento) {
+        evento.preventDefault();
+        mostrarModalRanking();
+    });
+    botonCerrarRanking.addEventListener('click', ocultarModalRanking);
+    filtroNivel.addEventListener('change', filtrarResultados);
+    botonLimpiarHistorial.addEventListener('click', limpiarHistorial);
 }
 /* ============================================
    INICIALIZACION DE LA APLICACION
