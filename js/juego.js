@@ -42,6 +42,7 @@ var mensajeFin = document.getElementById('mensajeFin');
 var tiempoFinal = document.getElementById('tiempoFinal');
 var minasFinal = document.getElementById('minasFinal');
 var botonJugarDeNuevo = document.getElementById('botonJugarDeNuevo');
+var botonVerTablero = document.getElementById('botonVerTablero');
 var selectorNivel = document.getElementById('selectorNivel');
 var modalRanking = document.getElementById('modalRanking');
 var linkRanking = document.getElementById('linkRanking');
@@ -201,7 +202,7 @@ function renderizarTablaRanking(resultados) {
         html += '</div>';
         html += '<div class="resultado-stats">';
         html += '<span class="resultado-puntaje">' + (resultado.puntaje || 0) + ' pts</span>';
-        html += '<span class="resultado-tiempo">' + formatearContador(resultado.tiempo) + '</span>';
+        html += '<span class="resultado-tiempo">' + formatearContador(resultado.tiempo) + 's</span>';
         html += '</div>';
         html += '</div>';
     }
@@ -415,6 +416,9 @@ function mostrarModalFin(gano) {
 function ocultarModalFin() {
     modalFin.classList.add('oculto');
 }
+function alternarModalFin() {
+    modalFin.classList.toggle('oculto');
+}
 function verificarCondicionVictoria() {
     var celdasPorRevelar = TOTAL_CELDAS - TOTAL_MINAS;
     if (celdasReveladas === celdasPorRevelar) {
@@ -601,6 +605,7 @@ function configurarEventos() {
     formularioInicio.addEventListener('submit', manejarInicioJuego);
     botonReiniciar.addEventListener('click', reiniciarJuego);
     botonJugarDeNuevo.addEventListener('click', reiniciarJuego);
+    botonVerTablero.addEventListener('click', alternarModalFin);
     document.addEventListener('keydown', manejarTeclaEspacio);
     selectorNivel.addEventListener('change', cambiarNivel);
     linkRanking.addEventListener('click', function(evento) {
