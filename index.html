@@ -15,6 +15,7 @@
             <ul class="menu-navegacion">
                 <li><a href="index.html" class="activo">Juego</a></li>
                 <li><a href="contacto.html">Contacto</a></li>
+                <li><a href="#" id="linkRanking">Ranking</a></li>
                 <li><a href="https://github.com/maos1111/final-minesweeper" target="_blank" rel="noopener noreferrer">GitHub</a></li>
             </ul>
             <button id="botonTema" class="boton-tema" aria-label="Cambiar tema">☀</button>
@@ -56,6 +57,9 @@
             <!-- INFORMACION DEL JUGADOR -->
             <div class="informacion-jugador">
                 <p>Jugador: <span id="nombreJugador">-</span></p>
+                <button id="botonCambiarJugador" class="boton-cambiar-jugador" title="Cambiar jugador">
+                    Cambiar Jugador
+                </button>
             </div>
         </div>
     </main>
@@ -84,7 +88,31 @@
                 <p>Tiempo: <span id="tiempoFinal"></span> segundos</p>
                 <p>Minas: <span id="minasFinal"></span></p>
             </div>
-            <button id="botonJugarDeNuevo" class="boton-primario">Jugar de Nuevo</button>
+            <div class="botones-modal">
+                <button id="botonVerTablero" class="boton-secundario">Ver Tablero</button>
+                <button id="botonJugarDeNuevo" class="boton-primario">Jugar de Nuevo</button>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL DE RANKING -->
+    <div id="modalRanking" class="modal oculto">
+        <div class="contenido-modal modal-ranking">
+            <h2>Ranking de Jugadores</h2>
+            <div class="controles-ranking">
+                <select id="filtroNivel" class="filtro-nivel">
+                    <option value="todos">Todos los niveles</option>
+                    <option value="facil">Fácil</option>
+                    <option value="medio">Medio</option>
+                    <option value="dificil">Difícil</option>
+                </select>
+                <select id="ordenarPor" class="filtro-nivel">
+                    <option value="puntaje">Ordenar por Puntaje</option>
+                    <option value="fecha">Ordenar por Fecha</option>
+                </select>
+                <button id="botonLimpiarHistorial" class="boton-limpiar">Limpiar Historial</button>
+            </div>
+            <div id="tablaRanking" class="tabla-ranking"></div>
+            <button id="botonCerrarRanking" class="boton-primario">Cerrar</button>
         </div>
     </div>
     <script src="js/tema.js"></script>

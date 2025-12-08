@@ -42,7 +42,16 @@ var mensajeFin = document.getElementById('mensajeFin');
 var tiempoFinal = document.getElementById('tiempoFinal');
 var minasFinal = document.getElementById('minasFinal');
 var botonJugarDeNuevo = document.getElementById('botonJugarDeNuevo');
+var botonVerTablero = document.getElementById('botonVerTablero');
 var selectorNivel = document.getElementById('selectorNivel');
+var modalRanking = document.getElementById('modalRanking');
+var linkRanking = document.getElementById('linkRanking');
+var filtroNivel = document.getElementById('filtroNivel');
+var botonLimpiarHistorial = document.getElementById('botonLimpiarHistorial');
+var tablaRanking = document.getElementById('tablaRanking');
+var botonCerrarRanking = document.getElementById('botonCerrarRanking');
+var botonCambiarJugador = document.getElementById('botonCambiarJugador');
+var ordenarPor = document.getElementById('ordenarPor');
 /* ============================================
    FUNCIONES DE VALIDACION
    ============================================ */
@@ -84,6 +93,129 @@ function cambiarNivel() {
     inicializarJuego();
 }
 /* ============================================
+   GESTION DE RESULTADOS - LOCALSTORAGE
+   ============================================ */
+function calcularPuntaje(gano, tiempo, nivel) {
+    var puntosBase;
+    var puntaje;
+    if (!gano) return 0;
+    
+    switch (nivel) {
+        case 'facil':
+            puntosBase = 1000;
+        break;
+        case 'facil':
+            puntosBase = 1000;
+        break;
+        case 'facil':
+            puntosBase = 1000;
+        break;
+    
+        default:
+            break;
+    }
+    puntaje = puntosBase - tiempo;
+    return puntaje > 0 ? puntaje : 1;
+}
+function obtenerResultados() {
+    var resultados = localStorage.getItem('resultadosMinesweeper');
+    if (resultados) {
+        return JSON.parse(resultados);
+    }
+    return [];
+}
+function guardarResultado(gano) {
+    var resultados = obtenerResultados();
+    var puntaje = calcularPuntaje(gano, tiempoTranscurrido, nivelActual);
+    var nuevoResultado = {
+        nombre: nombreJugador,
+        nivel: nivelActual,
+        tiempo: tiempoTranscurrido,
+        minas: TOTAL_MINAS,
+        gano: gano,
+        puntaje: puntaje,
+        fecha: new Date().toISOString()
+    };
+    resultados.push(nuevoResultado);
+    localStorage.setItem('resultadosMinesweeper', JSON.stringify(resultados));
+}
+function mostrarModalRanking() {
+    var todosResultados = obtenerResultados();
+    filtroNivel.value = 'todos';
+    ordenarPor.value = 'puntaje';
+    renderizarTablaRanking(todosResultados);
+    modalRanking.classList.remove('oculto');
+}
+function ocultarModalRanking() {
+    modalRanking.classList.add('oculto');
+}
+function filtrarResultados() {
+    var nivelSeleccionado = filtroNivel.value;
+    var todosResultados = obtenerResultados();
+    var resultadosFiltrados;
+    if (nivelSeleccionado === 'todos') {
+        resultadosFiltrados = todosResultados;
+    } else {
+        resultadosFiltrados = [];
+        for (var i = 0; i < todosResultados.length; i++) {
+            if (todosResultados[i].nivel === nivelSeleccionado) {
+                resultadosFiltrados.push(todosResultados[i]);
+            }
+        }
+    }
+    renderizarTablaRanking(resultadosFiltrados);
+}
+function renderizarTablaRanking(resultados) {
+    var html = '';
+    var i;
+    var resultado;
+    var fecha;
+    var fechaFormateada;
+    var claseEstado;
+    var estadoTexto;
+    var criterioOrden = ordenarPor.value;
+    var resultadosOrdenados;
+    if (resultados.length === 0) {
+        tablaRanking.innerHTML = '<p class="mensaje-vacio">No hay resultados guardados</p>';
+        return;
+    }
+    resultadosOrdenados = resultados.slice();
+    if (criterioOrden === 'puntaje') {
+        resultadosOrdenados.sort(function(a, b) {
+            return (b.puntaje || 0) - (a.puntaje || 0);
+        });
+    } else {
+        resultadosOrdenados.sort(function(a, b) {
+            return new Date(b.fecha) - new Date(a.fecha);
+        });
+    }
+    for (i = 0; i < resultadosOrdenados.length; i++) {
+        resultado = resultadosOrdenados[i];
+        fecha = new Date(resultado.fecha);
+        fechaFormateada = fecha.toLocaleDateString('es-ES') + ' ' + fecha.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        claseEstado = resultado.gano ? 'victoria' : 'derrota';
+        estadoTexto = resultado.gano ? '🎉 Victoria' : '💥 Derrota';
+        html += '<div class="resultado-item ' + claseEstado + '">';
+        html += '<div class="resultado-info">';
+        html += '<span class="resultado-nombre">' + resultado.nombre + '</span>';
+        html += '<span class="resultado-detalles">' + estadoTexto + ' - ' + resultado.nivel.charAt(0).toUpperCase() + resultado.nivel.slice(1) + ' (' + resultado.minas + ' minas) - ' + fechaFormateada + '</span>';
+        html += '</div>';
+        html += '<div class="resultado-stats">';
+        html += '<span class="resultado-puntaje">' + (resultado.puntaje || 0) + ' pts</span>';
+        html += '<span class="resultado-tiempo">' + formatearContador(resultado.tiempo) + 's</span>';
+        html += '</div>';
+        html += '</div>';
+    }
+    tablaRanking.innerHTML = html;
+}
+function limpiarHistorial() {
+    var confirmacion = confirm('¿Estás seguro de que deseas eliminar todo el historial de partidas?');
+    if (confirmacion) {
+        localStorage.removeItem('resultadosMinesweeper');
+        renderizarTablaRanking([]);
+    }
+}
+/* ============================================
    GESTION DE MODALES
    ============================================ */
 function mostrarModalInicio() {
@@ -92,6 +224,16 @@ function mostrarModalInicio() {
 }
 function ocultarModalInicio() {
     modalInicio.classList.add('oculto');
+}
+function cambiarJugador() {
+    ocultarModalFin();
+    ocultarModalRanking();
+    detenerTemporizador();
+    juegoTerminado = true;
+    inputNombreJugador.value = '';
+    errorNombre.textContent = '';
+    inputNombreJugador.classList.remove('error');
+    mostrarModalInicio();
 }
 function manejarInicioJuego(evento) {
     var nombre;
@@ -274,12 +416,16 @@ function mostrarModalFin(gano) {
 function ocultarModalFin() {
     modalFin.classList.add('oculto');
 }
+function alternarModalFin() {
+    modalFin.classList.toggle('oculto');
+}
 function verificarCondicionVictoria() {
     var celdasPorRevelar = TOTAL_CELDAS - TOTAL_MINAS;
     if (celdasReveladas === celdasPorRevelar) {
         juegoTerminado = true;
         detenerTemporizador();
         actualizarBotonReiniciar('genial');
+        guardarResultado(true);
         setTimeout(function() {
             mostrarModalFin(true);
         }, 300);
@@ -306,6 +452,7 @@ function manejarClickMina(fila, columna) {
     juegoTerminado = true;
     detenerTemporizador();
     actualizarBotonReiniciar('muerto');
+    guardarResultado(false);
     elementoCelda = obtenerElementoCelda(fila, columna);
     elementoCelda.classList.add('mina-activada');
     elementoCelda.textContent = '*';
@@ -352,7 +499,7 @@ function alternarBandera(fila, columna, elementoCelda) {
         }
         datosCelda.tieneBandera = true;
         elementoCelda.classList.add('con-bandera');
-        elementoCelda.textContent = 'F';
+        elementoCelda.textContent = '🚩';
         banderasColocadas++;
     }
     actualizarContadorMinas();
@@ -458,8 +605,18 @@ function configurarEventos() {
     formularioInicio.addEventListener('submit', manejarInicioJuego);
     botonReiniciar.addEventListener('click', reiniciarJuego);
     botonJugarDeNuevo.addEventListener('click', reiniciarJuego);
+    botonVerTablero.addEventListener('click', alternarModalFin);
     document.addEventListener('keydown', manejarTeclaEspacio);
     selectorNivel.addEventListener('change', cambiarNivel);
+    linkRanking.addEventListener('click', function(evento) {
+        evento.preventDefault();
+        mostrarModalRanking();
+    });
+    botonCerrarRanking.addEventListener('click', ocultarModalRanking);
+    filtroNivel.addEventListener('change', filtrarResultados);
+    ordenarPor.addEventListener('change', filtrarResultados);
+    botonLimpiarHistorial.addEventListener('click', limpiarHistorial);
+    botonCambiarJugador.addEventListener('click', cambiarJugador);
 }
 /* ============================================
    INICIALIZACION DE LA APLICACION
