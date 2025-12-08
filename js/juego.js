@@ -84,6 +84,29 @@ function cambiarNivel() {
     inicializarJuego();
 }
 /* ============================================
+   GESTION DE RESULTADOS - LOCALSTORAGE
+   ============================================ */
+function obtenerResultados() {
+    var resultados = localStorage.getItem('resultadosMinesweeper');
+    if (resultados) {
+        return JSON.parse(resultados);
+    }
+    return [];
+}
+function guardarResultado(gano) {
+    var resultados = obtenerResultados();
+    var nuevoResultado = {
+        nombre: nombreJugador,
+        nivel: nivelActual,
+        tiempo: tiempoTranscurrido,
+        minas: TOTAL_MINAS,
+        gano: gano,
+        fecha: new Date().toISOString()
+    };
+    resultados.push(nuevoResultado);
+    localStorage.setItem('resultadosMinesweeper', JSON.stringify(resultados));
+}
+/* ============================================
    GESTION DE MODALES
    ============================================ */
 function mostrarModalInicio() {
@@ -280,6 +303,7 @@ function verificarCondicionVictoria() {
         juegoTerminado = true;
         detenerTemporizador();
         actualizarBotonReiniciar('genial');
+        guardarResultado(true);
         setTimeout(function() {
             mostrarModalFin(true);
         }, 300);
@@ -306,6 +330,7 @@ function manejarClickMina(fila, columna) {
     juegoTerminado = true;
     detenerTemporizador();
     actualizarBotonReiniciar('muerto');
+    guardarResultado(false);
     elementoCelda = obtenerElementoCelda(fila, columna);
     elementoCelda.classList.add('mina-activada');
     elementoCelda.textContent = '*';
@@ -352,7 +377,7 @@ function alternarBandera(fila, columna, elementoCelda) {
         }
         datosCelda.tieneBandera = true;
         elementoCelda.classList.add('con-bandera');
-        elementoCelda.textContent = 'F';
+        elementoCelda.textContent = '🚩';
         banderasColocadas++;
     }
     actualizarContadorMinas();
