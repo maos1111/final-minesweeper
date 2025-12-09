@@ -561,14 +561,23 @@ function renderizarTablero() {
     var i;
     var j;
     var celda;
+    var tamanoCelda;
+    var anchoTablero;
     tableroJuego.innerHTML = '';
-    tableroJuego.style.gridTemplateColumns = 'repeat(' + TAMANO_TABLERO + ', var(--tamano-celda))';
+    tamanoCelda = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--tamano-celda'));
+    anchoTablero = (TAMANO_TABLERO * tamanoCelda) + ((TAMANO_TABLERO - 1) * 2) + 4;
+    tableroJuego.style.width = anchoTablero + 'px';
     for (i = 0; i < TAMANO_TABLERO; i++) {
         for (j = 0; j < TAMANO_TABLERO; j++) {
             celda = crearElementoCelda(i, j);
             tableroJuego.appendChild(celda);
         }
     }
+}
+function ajustarAnchoTablero() {
+    var tamanoCelda = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--tamano-celda'));
+    var anchoTablero = (TAMANO_TABLERO * tamanoCelda) + ((TAMANO_TABLERO - 1) * 2) + 4;
+    tableroJuego.style.width = anchoTablero + 'px';
 }
 /* ============================================
    INICIALIZACION Y REINICIO
@@ -614,6 +623,7 @@ function configurarEventos() {
     ordenarPor.addEventListener('change', filtrarResultados);
     botonLimpiarHistorial.addEventListener('click', limpiarHistorial);
     botonCambiarJugador.addEventListener('click', cambiarJugador);
+    window.addEventListener('resize', ajustarAnchoTablero);
 }
 /* ============================================
    INICIALIZACION DE LA APLICACION
