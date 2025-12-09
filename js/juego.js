@@ -104,10 +104,10 @@ function calcularPuntaje(gano, tiempo, nivel) {
         case 'facil':
             puntosBase = 1000;
         break;
-        case 'facil':
+        case 'medio':
             puntosBase = 1000;
         break;
-        case 'facil':
+        case 'dificil':
             puntosBase = 1000;
         break;
     
