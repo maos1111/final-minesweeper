@@ -227,6 +227,7 @@ function cambiarJugador() {
     ocultarModalRanking();
     detenerTemporizador();
     juegoTerminado = true;
+    habilitarControles();
     inputNombreJugador.value = '';
     errorNombre.textContent = '';
     inputNombreJugador.classList.remove('error');
@@ -423,6 +424,7 @@ function verificarCondicionVictoria() {
         detenerTemporizador();
         actualizarBotonReiniciar('genial');
         guardarResultado(true);
+        habilitarControles();
         setTimeout(function() {
             mostrarModalFin(true);
         }, 300);
@@ -450,6 +452,7 @@ function manejarClickMina(fila, columna) {
     detenerTemporizador();
     actualizarBotonReiniciar('muerto');
     guardarResultado(false);
+    habilitarControles();
     elementoCelda = obtenerElementoCelda(fila, columna);
     elementoCelda.classList.add('mina-activada');
     elementoCelda.textContent = '*';
@@ -536,6 +539,7 @@ function manejarClickCelda(evento) {
     if (!juegoIniciado) {
         iniciarTemporizador();
         juegoIniciado = true;
+        deshabilitarControles();
     }
     revelarCelda(fila, columna);
 }
@@ -626,6 +630,39 @@ function configurarEventos() {
     window.addEventListener('resize', ajustarAnchoTablero);
 }
 /* ============================================
+   CONTROL DE ESTADO DE ELEMENTOS
+   ============================================ */
+function deshabilitarControles() {
+    var enlaces = document.querySelectorAll('.menu-navegacion a');
+    var i;
+    selectorNivel.disabled = true;
+    botonCambiarJugador.disabled = true;
+    botonCambiarJugador.style.opacity = '0.5';
+    botonCambiarJugador.style.cursor = 'not-allowed';
+    linkRanking.style.pointerEvents = 'none';
+    linkRanking.style.opacity = '0.5';
+    for (i = 0; i < enlaces.length; i++) {
+        enlaces[i].style.pointerEvents = 'none';
+        enlaces[i].style.opacity = '0.5';
+        enlaces[i].style.cursor = 'not-allowed';
+    }
+}
+function habilitarControles() {
+    var enlaces = document.querySelectorAll('.menu-navegacion a');
+    var i;
+    selectorNivel.disabled = false;
+    botonCambiarJugador.disabled = false;
+    botonCambiarJugador.style.opacity = '';
+    botonCambiarJugador.style.cursor = '';
+    linkRanking.style.pointerEvents = '';
+    linkRanking.style.opacity = '';
+    for (i = 0; i < enlaces.length; i++) {
+        enlaces[i].style.pointerEvents = '';
+        enlaces[i].style.opacity = '';
+        enlaces[i].style.cursor = '';
+    }
+}
+/* ============================================
    INICIALIZACION DE LA APLICACION
    ============================================ */
 function inicializar() {
@@ -635,4 +672,3 @@ function inicializar() {
 }
 document.addEventListener('DOMContentLoaded', inicializar);
 })();
-
